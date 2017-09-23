@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>利用angularJS双向绑定实现倒计时的效果</title>
+		<link rel="stylesheet" type="text/css" href="../css/styleloginsign.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css">
+
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../js/angular.min.js"></script>
+	</head>
+
+	<body>
+		<div class="form-group" ng-app = "signupApp" ng-controller = "btnCtrl">
+			<div class="col-sm-5" style="width: 150px;">
+				<input type="text" class="form-control" placeholder="请输入验证码">
+			</div>
+			<div >
+				<button id="sendBtn" class="btn btn-default" ng-click="getCodeMsg()" ng-bind="codeMsg" />
+			</div>
+
+		</div>
+		
+		<script type="text/javascript">
+			var signupApp = angular.module("signupApp",[]);
+			signupApp.controller("btnCtrl",["$scope",function($scope){
+				$scope.codeMsg = "获取验证码";
+				var second = 10;
+				var secondInterval;
+//				var isSended = false;//发送按钮是否可以继续点击
+				$scope.getCodeMsg = function(){
+//					if(isSended){
+//						return;
+//					}
+					$("#sendBtn").attr("disabled",true);
+					secondInterval = setInterval(function(){
+						// 强制更新视图
+							$scope.$digest();
+						if(second > 0){
+							second--;
+							$scope.codeMsg = second+"秒后发送";
+						}else{
+							$scope.codeMsg = "请重新发送验证码";
+							second = 20;
+							clearInterval(secondInterval);
+							secondInterval = undefined;
+							$("#sendBtn").removeAttr("disabled");
+							$scope.$digest();
+						}
+					},1000);
+					
+//					isSended = true;
+					
+				};
+			}]);
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>angularJS对象数据绑定示例01</title>
+
+<!-- 先导入相应js文件 -->
+<script type="text/javascript" src="../js/angular.min.js"></script>
+</head>
+<body>
+
+	<div ng-app = "myapp" ng-controller = "myctrl">
+		<div>
+			<!-- input中如果设置ng-model标签，则name的值可以省略不写，默认即为 user.name -->
+			<input type="text" ng-model = "user.name"/>
+		</div>
+		<div>
+			name-bind:<label ng-bind="user.name"/>
+		</div>
+		pass:{{user.pass}}
+	</div>
+	
+	<script type="text/javascript">
+		//初始化模块
+		var myapp = angular.module("myapp",[]);
+		
+		myapp.controller("myctrl",["$scope",function($scope){
+//				$scope.user.name = "abc";
+//				$scope.user.pass = "123456";
+				
+				//这里初始化user对象的值，值的初始化使用json格式。下面的初始化意思： user对象中有两个属性name和pass
+				$scope.user={"name":"qwe","pass":"123"};
+		}]);
+	</script>
+</body>
+</html>
